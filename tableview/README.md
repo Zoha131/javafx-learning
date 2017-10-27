@@ -15,45 +15,45 @@
 ### Basic Steps to add TableView
 
 1. create a model for TableView. the model class must have **getters** to get tha values.
-  ```java
-  public class Person{
-      int id;
-      String name;
+    ```java
+    public class Person{
+        int id;
+        String name;
 
-      public Person(int id, String name) {
-          this.id = id;
-          this.name = name;
-      }
+        public Person(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
 
-      public int getId() {
-          return id;
-      }
+        public int getId() {
+            return id;
+        }
 
-      public void setId(int id) {
-          this.id = id;
-      }
+        public void setId(int id) {
+            this.id = id;
+        }
 
-      public String getName() {
-          return name;
-      }
+        public String getName() {
+            return name;
+        }
 
-      public void setName(String name) {
-          this.name = name;
-      }
-  }
-  ```
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+    ```
 1. create a observablelist from the model frow which the TableView will get data  
-  ```java
-  ObservableList<Person> data = FXCollections.<Person>observableArrayList();
-   data.add(new Person(1,"zoha"));
-   data.add(new Person(2, "nowroj"));
-   data.add(new Person(3, "shohag"));
-   data.add(new Person(4, "tarek"));
-  ```
+    ```java
+    ObservableList<Person> data = FXCollections.<Person>observableArrayList();
+     data.add(new Person(1,"zoha"));
+     data.add(new Person(2, "nowroj"));
+     data.add(new Person(3, "shohag"));
+     data.add(new Person(4, "tarek"));
+    ```
 1. create a TableView object
-  ```java
-   TableView<Person> table = new TableView<>(data);
-  ```
+    ```java
+     TableView<Person> table = new TableView<>(data);
+    ```
 1. create TableColumn objects
     * add CellValueFactory to the TableColumn object by calling ```setCellValueFactory()``` method
     * if you want to add custom cell functionality add CellFactory to the TableColumn object by calling ```setCellFactory()``` method
@@ -67,16 +67,16 @@
   name_col.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
   ```
 1. add columns to the TableView object by calling ```getColumns().addAll()``` method
-  ```java
-  table.getColumns().addAll(id_col,name_col);
-  //to enable editing TableCell
-  table.setEditable(true);
-  ```
+    ```java
+    table.getColumns().addAll(id_col,name_col);
+    //to enable editing TableCell
+    table.setEditable(true);
+    ```
 1. add the object of the TableView to the root view
-  ```java
-  BorderPane root = new BorderPane();
-  root.setCenter(table);
-  ```
+    ```java
+    BorderPane root = new BorderPane();
+    root.setCenter(table);
+    ```
 1. enjoy... ;)
 
 
