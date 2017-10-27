@@ -61,14 +61,14 @@
     * add CellValueFactory to the TableColumn object by calling ```setCellValueFactory()``` method
     * if you want to add custom cell functionality add CellFactory to the TableColumn object by calling ```setCellFactory()``` method
 
-  ```java
-  TableColumn<Person, Integer> id_col = new TableColumn<>("ID");
-  id_col.setCellValueFactory(new PropertyValueFactory<Song, Integer>("id"));
+    ```java
+    TableColumn<Person, Integer> id_col = new TableColumn<>("ID");
+    id_col.setCellValueFactory(new PropertyValueFactory<Song, Integer>("id"));
 
-  TableColumn<Person, String> name_col = new TableColumn<>("Name");
-  name_col.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
-  name_col.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
-  ```
+    TableColumn<Person, String> name_col = new TableColumn<>("Name");
+    name_col.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
+    name_col.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+    ```
 1. add columns to the TableView object by calling ```getColumns().addAll()``` method
 
     ```java
