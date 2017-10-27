@@ -9,7 +9,80 @@
     * ProgressBarTableCell
     * TextFieldTableCell
 
+
 * For an object of TableColumn the method ```setCellValueFactory()``` must have to be used. And additionally you can all call and specify ```setCellFactory()``` method to have custom cell type
+
+### Basic Steps to add TableView
+
+1. create a model for TableView. the model class must have **getters** to get tha values.
+  ```java
+  public class Person{
+      int id;
+      String name;
+
+      public Person(int id, String name) {
+          this.id = id;
+          this.name = name;
+      }
+
+      public Person() {
+          this(0, "");
+      }
+
+      public int getId() {
+          return id;
+      }
+
+      public void setId(int id) {
+          this.id = id;
+      }
+
+      public String getName() {
+          return name;
+      }
+
+      public void setName(String name) {
+          this.name = name;
+      }
+  }
+  ```
+1. create a observablelist from the model frow which the TableView will get data  
+  ```java
+  ObservableList<Person> data = FXCollections.<Person>observableArrayList();
+   data.add(new Person(1,"zoha"));
+   data.add(new Person(2, "nowroj"));
+   data.add(new Person(3, "shohag"));
+   data.add(new Person(4, "tarek"));
+  ```
+1. create a TableView object
+  ```java
+   TableView<Person> table = new TableView<>(data);
+  ```
+1. create TableColumn objects
+    * add CellValueFactory to the TableColumn object by calling ```setCellValueFactory()``` method
+    * if you want to add custom cell functionality add CellFactory to the TableColumn object by calling ```setCellFactory()``` method
+
+  ```java
+  TableColumn<Person, Integer> id_col = new TableColumn<>("ID");
+  id_col.setCellValueFactory(new PropertyValueFactory<Song, Integer>("id"));
+
+  TableColumn<Person, String> name_col = new TableColumn<>("Name");
+  name_col.setCellValueFactory(new PropertyValueFactory<Song, String>("name"));
+  name_col.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
+  ```
+1. add columns to the TableView object by calling ```getColumns().addAll()``` method
+  ```java
+  table.getColumns().addAll(id_col,name_col);
+  //to enable editing TableCell
+  table.setEditable(true);
+  ```
+1. add the object of the TableView to the root view
+  ```java
+  BorderPane root = new BorderPane();
+  root.setCenter(table);
+  ```
+1. enjoy... ;)
+
 
 ### Editing TableCell
 
