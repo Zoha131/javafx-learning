@@ -25,10 +25,6 @@
           this.name = name;
       }
 
-      public Person() {
-          this(0, "");
-      }
-
       public int getId() {
           return id;
       }
