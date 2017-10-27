@@ -15,6 +15,7 @@
 ### Basic Steps to add TableView
 
 1. create a model for TableView. the model class must have **getters** to get tha values.
+
     ```java
     public class Person{
         int id;
@@ -43,6 +44,7 @@
     }
     ```
 1. create a observablelist from the model frow which the TableView will get data  
+
     ```java
     ObservableList<Person> data = FXCollections.<Person>observableArrayList();
      data.add(new Person(1,"zoha"));
@@ -51,6 +53,7 @@
      data.add(new Person(4, "tarek"));
     ```
 1. create a TableView object
+
     ```java
      TableView<Person> table = new TableView<>(data);
     ```
@@ -67,12 +70,14 @@
   name_col.setCellFactory(TextFieldTableCell.<Person>forTableColumn());
   ```
 1. add columns to the TableView object by calling ```getColumns().addAll()``` method
+
     ```java
     table.getColumns().addAll(id_col,name_col);
     //to enable editing TableCell
     table.setEditable(true);
     ```
 1. add the object of the TableView to the root view
+
     ```java
     BorderPane root = new BorderPane();
     root.setCenter(table);
