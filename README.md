@@ -11,6 +11,7 @@ Hope this would be helpful to me as well as to others. Feel free to fork this re
     * Editing TableCell
     * SelectionModel
     * FocusModel
+1. [Dialog](http://code.makery.ch/blog/javafx-dialogs-official/)
 
 
 ### Study Material
