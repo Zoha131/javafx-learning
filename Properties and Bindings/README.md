@@ -1,5 +1,7 @@
 ## Notes About property
 
+* [what-are-javafx-properties](http://www.dummies.com/programming/java/what-are-javafx-properties/)
+
 * All properties in JavaFX are observable. They can be observed for invalidation and value changes.
 
 * In JavaFX, properties are objects. There is a property class hierarchy for each type of property. For example, the IntegerProperty, DoubleProperty, and StringProperty classes represent properties of int, double, and String types, respectively. These classes are abstract. There are two types of implementation classes for them: one to represent a read/write property and one to represent a wrapper for a read-only property. For example, the SimpleDoubleProperty and ReadOnlyDoubleWrapper classes are concrete classes whose objects are used as read/write and read-only double properties, respectively.
@@ -150,7 +152,7 @@
     2. Call the bind() method of the superclass to bind all dependencies. Note that all binding classes have a bind() method implementation. You need to call this method passing all dependencies as arguments. Its argument type is a varargs of Observable type.
 
     3. Override the computeValue() method of the superclass to write the logic for your binding. It calculates the current value of the binding. Its return type is the same as the type of the binding, for example, it is double for a DoubleBinding, String for a StringBinding, and so forth.
-    ```java 
+    ```java
       DoubleBinding areaBinding = new DoubleBinding() {
           {
               this.bind(radius);
