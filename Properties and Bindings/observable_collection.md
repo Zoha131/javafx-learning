@@ -1,5 +1,7 @@
 ## Notes
 
+### 1. Understanding ObservableList
+
 * an observable collection in JavaFX is a list, set, or map that may be observed for invalidation and content changes
 
 * In the case of the ObservableList, the invalidation listeners are notified for every change in the list, irrespective of the type of a change.
@@ -56,3 +58,52 @@
     * If the ```wasUpdated()``` method returns true, the range includes the elements that were updated.
     * If the ```wasAdded()``` method returns true, the range includes the elements that were added.
     * If the ```wasRemoved()``` method returns true and the ```wasAdded()``` method returns false, the ```getFrom()``` and ```getTo()``` methods return the same number—the index where the removed elements were placed in the list.
+
+
+* JavaFX library provides two classes named ```FilteredList``` and ```SortedList``` that are in the __javafx.collections.transformation__ package. A ```FilteredList``` is an ```ObservableList``` that filters its contents using a specified Predicate. A ```SortedList``` sorts its contents. All discussions of observable lists apply to the objects of these classes as well.
+
+
+##### Observing an ObservableList for Updates
+
+* the following two methods of the FXCollections class that create an ObservableList:
+    * ```<E> ObservableList<E> observableArrayList(Callback<E, Observable[]> extractor)```
+    * ```<E> ObservableList<E> observableList(List<E> list, Callback<E, Observable[]> extractor)```
+
+    If you want to be notified when elements of a list are updated, you need to create the list using one of these methods. Both methods have one thing in common: They take a ```Callback<E,Observable[]>``` object as an argument. The ```Callback<P,R>``` interface is in the __javafx.util__ package. It is defined as follows:
+    ```java
+        public interface Callback<P,R> {
+            R call(P param);
+        }
+    ```
+
+* Let’s examine why you need a Callback object and an Observable array to detect updates to elements of a list. A list stores references of its elements. Its elements can be updated using their references from anywhere in the program. A list does not know that its elements are being updated from somewhere else. It needs to know the list of Observable objects, where a change to any of them may be considered an update to its elements. The call() method of the Callback object fulfills this requirement. The list passes every element to the call() method. The call() method returns an array of Observable. The list watches for any changes to the elements of the Observable array. When it detects a change, it notifies its change listeners that its element associated with the Observable array has been updated. The reason this parameter is named extractor is that it extracts an array of Observable for an element of a list.
+    ```java
+    class Person {
+        private StringProperty firstName = new SimpleStringProperty();
+        private StringProperty lastName = new SimpleStringProperty();
+
+        public Person(String firstName, String lastName) {
+            this.firstName.set(firstName);
+            this.lastName.set(lastName);
+        }
+
+        public StringProperty firstNameProperty() {
+            return firstName;
+        }
+
+        public StringProperty lastNameProperty() {
+            return lastName;
+        }
+    }
+    ```
+    ```java
+    public class Test {
+        public static void main(String[] args) {
+            Callback<Person, Observable[]> cb = (Person p) -> {
+                return new Observable[] {p.firstNameProperty(), p.lastNameProperty()};
+            };
+
+            ObservableList<Person> list = FXCollections.observableArrayList(cb);
+        }
+    }
+    ```
