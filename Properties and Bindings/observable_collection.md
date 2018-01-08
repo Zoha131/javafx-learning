@@ -95,15 +95,18 @@
             return lastName;
         }
     }
-    ```
-    ```java
     public class Test {
         public static void main(String[] args) {
-            Callback<Person, Observable[]> cb = (Person p) -> {
-                return new Observable[] {p.firstNameProperty(), p.lastNameProperty()};
+            Callback<Person, Observable[]> cb = new Callback<Person, Observable[]>() {
+                @Override
+                public Observable[] call(Person param) {
+                    return new Observable[]{param.firstNameProperty(), param.lastNameProperty()};
+                }
             };
 
             ObservableList<Person> list = FXCollections.observableArrayList(cb);
         }
     }
     ```
+
+### Understanding ObservableSet
