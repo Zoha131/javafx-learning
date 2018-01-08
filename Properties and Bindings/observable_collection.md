@@ -6,7 +6,7 @@
 
 * In the case of the ObservableList, the invalidation listeners are notified for every change in the list, irrespective of the type of a change.
 
-![ObservableList](../images/observablelist.png)
+![ObservableList](../images/observablelist.PNG)
 
 ##### Understanding the ListChangeListener.Change Class
 
@@ -109,4 +109,11 @@
     }
     ```
 
-### Understanding ObservableSet
+### 2. Understanding ObservableSet
+
+![ObservableSet](../images/observableset.PNG)
+
+
+### 3. Understanding ObservableMap
+
+![ObservableMap](../images/observablemap.PNG)
