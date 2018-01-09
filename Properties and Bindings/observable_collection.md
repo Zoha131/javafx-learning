@@ -113,7 +113,71 @@
 
 ![ObservableSet](../images/observableset.PNG)
 
+* Like ObservableList no ObservableSet factory method takes ```Callback``` object as parameter.
+
+* Like ListChangeListener.Change Class, SetChangeListener.Change Class does not contain any cursor.
+
 
 ### 3. Understanding ObservableMap
 
 ![ObservableMap](../images/observablemap.PNG)
+
+* Like ObservableList no ObservableMap factory method takes ```Callback``` object as parameter.
+
+* Like ListChangeListener.Change Class, MapChangeListener.Change Class does not contain any cursor.
+
+
+
+## Properties and Bindings for JavaFX Collections
+
+### 1.Understanding ObservableList Property and Binding
+
+* You can use one of the following constructors of the SimpleListProperty class to create an instance of the ListProperty:
+    * ```SimpleListProperty()```
+    * ```SimpleListProperty(ObservableList<E> initialValue)```
+    * ```SimpleListProperty(Object bean, String name)```
+    * ```SimpleListProperty(Object bean, String name, ObservableList<E> initialValue)```
+
+  One of the common mistakes in using the ```ListProperty``` class is not passing an ```ObservableLis```t to its constructor before using it. A ```ListProperty``` must have a reference to an ```ObservableList``` before you can perform a meaningful operation on it. If you do not use an ```ObservableLis```t to create a ```ListProperty``` object, you can use its ```set()``` method to set the reference of an ```ObservableList```. No ObservableList to work with, Generates an exception.
+
+* You can attach three types of listeners to a ListProperty:
+    1. An InvalidationListener
+    1. A ChangeListener
+    1. A ListChangeListener
+
+
+* A ListProperty exposes two properties, size and empty, which are of type ReadOnlyIntegerProperty and ReadOnlyBooleanProperty, respectively. You can access them using the sizeProperty() and emptyProperty() methods.
+
+* Methods to support high-level binding for a list property are in the ListExpression and Bindings classes. Low-level binding can be created by subclassing the ListBinding class. A ListProperty supports two types of bindings:
+    1. Binding with other ListProperty [ ```bind(ListProperty)``` & ```bindBidirectional(ListProperty)``` ]
+
+    1. Binding with ObservableList [ ```bindContent(ObservableList)``` & ```bindContentBidirectional(ObservableList)``` ]
+
+  I have specified the parameters of the methods just to simplify the concept. To know the actual parameter type please visit the documentation.
+
+* It is possible to bind to a specific element of the ObservableList wrapped in a ListProperty using one of the following methods of the ListExpression class:
+    1. ```ObjectBinding<E> valueAt(int index)```
+
+    1. ```ObjectBinding<E> valueAt(ObservableIntegerValue index)```
+
+  The first version of the method creates an ObjectBinding to an element in the list at a specific index. The second version of the method takes an index as an argument, which is an ObservableIntegerValue that can change over time. When the bound index in the valueAt() method is outside the list range, the ObjectBinding contains null.
+
+
+
+### 2. Understanding ObservableSet Property and Binding
+
+* A SetProperty object wraps an ObservableSet. Working with a SetProperty is very similar to working with a ListProperty. I am not going to repeat what has been discussed in the previous sections about properties and bindings of an ObservableList. The same discussions apply to properties and bindings of ObservableSet. The following are the salient points to remember while working with a SetProperty:
+
+    * The SetExpression and Bindings classes contain methods to support high-level bindings for set properties. You need to subclass the ```SetBinding``` class to create lowlevel bindings.
+
+    * Unlike a list, a set is an unordered collection of items. Its elements do not have indexes. It does not support binding to its specific elements. Therefore, the SetExpression class __does not__ contain a method like valueAt() as the ListExpression class does.
+
+
+
+### 3. Understanding ObservableMap Property and Binding
+
+* A MapProperty object wraps an ObservableMap. Working with a MapProperty is very similar to working with a ListProperty. I are not going to repeat what has been discussed in the previous sections about properties and bindings of an ObservableList. The same discussions apply to properties and bindings of ObservableMap. The following are the salient points to remember while working with a MapProperty:
+
+    * The MapExpression and Bindings classes contain methods to support high-level bindings for map properties. You need to subclass the ```MapBinding``` class to create low-level bindings.
+
+    * The MapProperty supports binding to the value of a specific key using its valueAt() method.
