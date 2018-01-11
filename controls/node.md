@@ -13,7 +13,7 @@
     1. boundsInLocal
     1. boundsInParent  
 
-    The boundsInLocal and BoundsInParent are known as physical or visual bounds as they correspond to how the node looks visually. The layoutBounds is also known as the logical bounds as it does not necessarily correspond to the physical bounds of the node.
+    The boundsInLocal and BoundsInParent are known as physical or visual bounds as they correspond to how the node looks visually. The layoutBounds is also known as the logical bounds as it does not necessarily correspond to the physical bounds of the node. All bounds of a node use local coordinate system of that node.
 
     ![Node Bound](../images/node_bound.PNG)
 
