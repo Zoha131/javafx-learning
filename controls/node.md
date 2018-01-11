@@ -117,6 +117,8 @@
     4. transform the coordinate from local to parent using __parentToLocal()__ method of the node that would be relocated. Transforming to parent coordinate because the __relocate()__ method takes the point of parent coordinate.
     5. now you have the point. use this point to relocate the node using __relocate()__ method of the node that would be relocated.
     ```java
+    // here newNode= respected node &
+    // marker = node that would be relocated    
     // step-1
     double nodeMinX = newNode.getLayoutBounds().getMinX();
     double nodeMinY = newNode.getLayoutBounds().getMinY();
