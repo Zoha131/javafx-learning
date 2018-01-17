@@ -49,74 +49,74 @@ giving them their preferred size:
 
 * Setting Backgrounds
     * The following CSS properties fill the entire layout bounds of the Region with a red color.
-    ```java
-    -fx-background-color: red;
-    -fx-background-insets: 0;
-    -fx-background-radius: 0;
-    ```
+        ```java
+        -fx-background-color: red;
+        -fx-background-insets: 0;
+        -fx-background-radius: 0;
+        ```
 
     * The following CSS properties use two fills.
-    ```java
-    -fx-background-color: lightgray, red;
-    -fx-background-insets: 0, 4;
-    -fx-background-radius: 4, 2;
-    ```
+        ```java
+        -fx-background-color: lightgray, red;
+        -fx-background-insets: 0, 4;
+        -fx-background-radius: 4, 2;
+        ```
 
     The first fill covers the entire Region (see 0px insets) with a light gray color; it uses a 4px radius for all four corners, making the Region look like a rounded rectangle.
 
     The second fill covers the Region with a red color; it uses a 4px inset on all four sides, which means that 4px from the edges of the Region are not painted by this fill, and that area will still have the light gray color used by the first fill. A 2px radius for all four corners is used by the second fill.
 
-    ![region-fill.PNG](/images/region-fill.PNG)
+        ![region-fill.PNG](/images/region-fill.PNG)
 
     * Starting from JavaFX 8, you can also set the background of a Region in code using Java objects. A Background object is immutable. It can be safely used as the background of multiple Regions. A Background object has zero or more fills and images. An instance of the ```BackgroundFill``` class represents a fill; an instance of the ```BackgroundImage``` class represents an image. The Region class contains a background property of the ```ObjectProperty<Background>``` type. The background of a Region is set using the ```setBackground(Background bg)``` method.
 
     * The following CSS properties fill the entire layout bounds of the Region with an image.
-    ```java
-    -fx-background-image: URL('your_image_url_goes_here');
-    -fx-background-repeat: space;
-    -fx-background-position: center;
-    -fx-background-size: cover;
-    ```
+        ```java
+        -fx-background-image: URL('your_image_url_goes_here');
+        -fx-background-repeat: space;
+        -fx-background-position: center;
+        -fx-background-size: cover;
+        ```
 
     * You must be able to differentiate between the insets of a stroke and insets/outsets a border. But can't :worried: . learn JavaFX 8 last para of Page: 321
 
     * Using an Image as a Border Without Filling the Middle Region
-    ```Java
-    -fx-border-image-source: url('image_url_goes_here') ;
-    -fx-border-image-repeat: no-repeat;
-    -fx-border-image-slice: 9;
-    -fx-border-image-width: 9;
-    -fx-border-image-insets: 10;
-    -fx-border-color: black;
-    -fx-border-width: 1;
-    -fx-border-style: dashed inside;
-    ```
-    ![imageBackgroundNoFill.PNG](/images/imageBackgroundNoFill.PNG)
+        ```Java
+        -fx-border-image-source: url('image_url_goes_here') ;
+        -fx-border-image-repeat: no-repeat;
+        -fx-border-image-slice: 9;
+        -fx-border-image-width: 9;
+        -fx-border-image-insets: 10;
+        -fx-border-color: black;
+        -fx-border-width: 1;
+        -fx-border-style: dashed inside;
+        ```
+        ![imageBackgroundNoFill.PNG](/images/imageBackgroundNoFill.PNG)
 
     * Using an Image as a Border Filling the Middle Region
-    ```java
-    -fx-border-image-source: url('image_url_goes_here') ;
-    -fx-border-image-repeat: no-repeat;
-    -fx-border-image-slice: 9 fill;
-    -fx-border-image-width: 9;
-    -fx-border-image-insets: 10;
-    -fx-border-color: black;
-    -fx-border-width: 1;
-    -fx-border-style: dashed inside;
-    ```
-    ![backgroundImageFill.PNG](/images/backgroundImageFill.PNG)
+        ```java
+        -fx-border-image-source: url('image_url_goes_here') ;
+        -fx-border-image-repeat: no-repeat;
+        -fx-border-image-slice: 9 fill;
+        -fx-border-image-width: 9;
+        -fx-border-image-insets: 10;
+        -fx-border-color: black;
+        -fx-border-width: 1;
+        -fx-border-style: dashed inside;
+        ```
+        ![backgroundImageFill.PNG](/images/backgroundImageFill.PNG)
 
     * The ```BorderImage``` class, which is immutable, represents a border image in a Border. All properties for the border image are specified in the constructor:
 
-    ```java
-    BorderImage(Image image,
-                BorderWidths widths,
-                Insets insets,
-                BorderWidths slices,
-                boolean filled,
-                BorderRepeat repeatX,
-                BorderRepeat repeatY)
-    ```
+        ```java
+        BorderImage(Image image,
+                    BorderWidths widths,
+                    Insets insets,
+                    BorderWidths slices,
+                    boolean filled,
+                    BorderRepeat repeatX,
+                    BorderRepeat repeatY)
+        ```
 
 ***
 
