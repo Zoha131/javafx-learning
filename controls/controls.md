@@ -310,3 +310,25 @@
         -fx-text-fill: blue;
     }
     ```
+***
+
+##### Understanding the ListView Control
+
+* ListView is used to allow a user to select one item or multiple items from a list of items. Each item in ListView is represented by an instance of the ListCell class, which can be customized. The items list in a ListView may contain any type of objects. If you want to store mixed types of items in a ListView, you can use its raw type, as shown in the following code:
+
+    ```java
+    // Create a ListView for any type of items
+    ListView seasons = new ListView();
+    // Create a ListView for String items
+    ListView<String> seasons = new ListView<String>();
+    ```
+
+* The ListView class contains a placeholder property, which stores a Node reference. When the items list is empty or null, the placeholder node is shown in the list area of the ListView. The following snippet of code sets a Label as a placeholder:
+    ```java
+    Label placeHolder = new Label("No seasons available for selection.");
+    seasons.setPlaceholder(placeHolder);
+    ```
+
+* ListView offers a scrolling feature. Use the ```scrollTo(int index)``` or ```scrollTo(T item)``` method to scroll to a specified index or item in the list.
+
+* The ListView class fires a ScrollToEvent when scrolling takes place using the scrollTo() method or by the user. You can set an event handler using the ```setOnScrollTo()``` method to handle scrolling.
