@@ -332,3 +332,185 @@
 * ListView offers a scrolling feature. Use the ```scrollTo(int index)``` or ```scrollTo(T item)``` method to scroll to a specified index or item in the list.
 
 * The ListView class fires a ScrollToEvent when scrolling takes place using the scrollTo() method or by the user. You can set an event handler using the ```setOnScrollTo()``` method to handle scrolling.
+
+* Each item in a ListView is displayed using an instance of the ListCell class. Figure 12-24 shows a class diagram for ListCell–related classes.
+
+    ![listCellClass.PNG](/images/listCellClass.PNG)
+
+    The Cell class is the superclass for all cells. You can override its ```updateItem(T object, boolean empty)``` and take full control of how the cell is populated. This method is called automatically by these controls when the item in the cell needs to be updated. The Cell class declares several useful properties: ```editable```, ```editing```, ```empty```, ```item```, and ```selected```. When a Cell is empty, which means it is not associated with any data item, its empty property is true. The IndexedCell class adds an ```index``` property, which is the index of the item in the underlying model.
+
+* The ListView class contains a cellFactory property that lets you use custom cells for its items. The property type is ```ObjectProperty<Callback<ListView<T>,ListCell<T>>>```.
+
+* The items in a ListView may be arranged vertically in a single column (default) or horizontally in a single row. It is controlled by the ```orientation``` property, as shown in the following code:
+    ```java
+    // Arrange list of seasons horizontally
+    seasons.setOrientation(Orientation.HORIZONTAL);
+    ```
+
+* ListView has a selection model that stores the selected state of its items. Its ```selectionModel``` property stores the reference of the selection model. By default, it uses an instance of the ```MultipleSelectionModel``` class. You can use a custom selection model. The selection model can be configured to work in two modes:
+    * Single selection mode
+    * Multiple selection mode
+
+    ```java
+    // Use multiple selection mode
+    seasons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    // Set it back to single selection mode, which is the default for a ListView
+    seasons.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    ```
+
+    Learn more about [SingleSelectionModel](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/SingleSelectionModel.html), [MultipleSelection](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/MultipleSelectionModel.html)
+
+* The selection model of ListView contains several methods to select items in different ways:
+    * The ```selectAll()``` method selects all items.
+    * The ```selectFirst()``` and ```selectLast()``` methods select the first item and the last item, respectively.
+    * The ```selectIndices(int index, int... indices)``` method selects items at the specified indices. Indices outside the valid range are ignored.
+    * The ```selectRange(int start, int end)``` method selects all indices from the start index (inclusive) to the end index (exclusive).
+    * The ```clearSelection()``` and ```clearSelection(int index)``` methods clear all selection and the selection at the specified index, respectively
+
+
+* The ListView control offers many customizations, and one of them is its ability to let users edit the items. You need to set two properties for a ListView before it can be edited:
+    * Set the editable property of the ListView to true.
+    * Set the cellFactory property of the ListView to a cell factory that produces an editable ListCell.
+
+    Select a cell and click to start editing. Alternatively, press the spacebar when a cell has focus to start editing. If a ListView is editable and has an editable cell, you can also use the edit(int index) method of the ListView to edit the item in the cell at the specified index.
+
+* The ListView class contains a read-only ```editingIndex``` property. Its value is the index of the item being edited. Its value is -1 if no item is being edited.
+
+* __Using a TextField to Edit ListView Items :__
+    * The following snippet of code shows how to set a TextField as the cell editor for a ListView:
+        ```java
+        ListView<String> breakfasts = new ListView<>();
+        ...
+        breakfasts.setEditable(true);
+        // Set a TextField as the editor
+        Callback<ListView<String>, ListCell<String>> cellFactory =
+        TextFieldListCell.forListView();
+        breakfasts.setCellFactory(cellFactory);
+        ```
+
+    * The following snippet of code shows how to set a TextField as the cell editor with a converter for a ListView that contains Person objects:
+        ```java
+        ListView<Person> persons = new ListView<>();
+        ...
+        persons.setEditable(true);
+        // Set a TextField as the editor.
+        // Need to use a StringConverter for Person objects.
+        StringConverter<Person> converter = new PersonStringConverter();
+        Callback<ListView<Person>, ListCell<Person>> cellFactory = TextFieldListCell.forListView(converter);
+        persons.setCellFactory(cellFactory);
+        ```
+
+* __Using a ChoiceBox/ComboBox to Edit ListView Items :__
+    ```java
+    ListView<String> breakfasts = new ListView<>();
+    ...
+    breakfasts.setEditable(true);
+    // Set a cell factory to use a ChoiceBox for editing
+    ObservableList<String> items = FXCollections.<String>observableArrayList("Apple", "Banana", "Donut", "Hash Brown");
+    breakfasts.setCellFactory(ChoiceBoxListCell.forListView(items));
+    ```
+
+* __Using a Check Box to Edit ListView Items :__
+* Note that the third state, the indeterminate state, of the check box is not available for selection while using a check box to edit ListView items.
+
+* Using a check box to edit ListView items is a little different. You need to provide the CheckBoxListCell class with an ```ObservableValue<Boolean>``` object for each item in the ListView. Internally, the observable value is bound bidirectionally to the selected state of the check box.
+
+* When the user selects or deselects an item in the ListView using the check box, the corresponding ObservableValue object is updated with a true or false value. If you want to know which item is selected, you will need to keep the reference of the ObservableValue object.
+
+    ```java
+    Map<String, ObservableValue<Boolean>> map = new HashMap<>();
+    map.put("Apple", new SimpleBooleanProperty(false));
+    map.put("Banana", new SimpleBooleanProperty(false));
+    map.put("Donut", new SimpleBooleanProperty(false));
+    map.put("Hash Brown", new SimpleBooleanProperty(false));
+
+    //Now, create an editable ListView with all keys in the map as its items:
+    ListView<String> breakfasts = new ListView<>();
+    breakfasts.setEditable(true);
+
+    // Add all keys from the map as items to the ListView
+    breakfasts.getItems().addAll(map.keySet());
+
+    /* The following snippet of code creates a Callback object.  
+    ** The CheckBoxListCell class will call the
+    ** call() method of this object automatically:
+    */
+    Callback<String, ObservableValue<Boolean>> itemToBoolean = (String item) -> map.get(item);
+
+    /* The forListView() static method of the CheckBoxListCell class takes a Callback
+    ** object as an argument. If your ListView contains domain objects, you can
+    ** also provide StringConverter to this method, using the following code:
+    */
+    breakfasts.setCellFactory(CheckBoxListCell.forListView(itemToBoolean));
+    ```
+
+* An editable ListView fires three kinds of events:
+    * An editStart event when the editing starts
+    * An editCommit event when the edited value is committed
+    * An editcancel event when the editing is cancelled
+
+* The ListView class defines a ```ListView.EditEvent<T>``` static inner class to represent edit-related event objects.
+    * Its ```getIndex()``` method returns the index of the item that is edited.
+    * The ```getNewValue()``` method returns the new input value.
+    * The ```getSource()``` method returns the reference of the ListView firing the event.
+
+
+* The ListView class provides ```onEditStart```, ```onEditCommit```, and ```onEditCancel``` properties to set the event handlers for these methods.
+
+* The ListView class has two CSS pseudo-classes: ```horizontal``` and ```vertical```. The ```-fx-orientation``` CSS property controls the orientation of the ListView, which can be set to horizontal or vertical.
+
+* ListCellprovides several CSS pseudo-classes: ```empty```, ```filled```, ```selected```, ```odd```, ```even```.
+
+***
+
+##### Understanding the ColorPicker Control
+
+* ColorPicker is a combo box–style control that is especially designed for users to select a color from a standard color palette or create a color using a built-in color dialog.
+
+* A ColorPicker has three parts:
+    * ColorPicker control
+    * Color palette
+    * Custom color dialog
+
+* If the current selection is one of the standard colors, the label displays the color name. Otherwise, it displays the color value in hex format.
+
+***
+
+##### Understanding the DatePicker Control
+
+* DatePicker is a combo-box style control. The user can enter a date as text or select a date from a calendar.
+
+* To format the date in "MMMM dd, yyyy" format, for example, May 29, 2013, you would create and set the convert as follows:
+    ```java
+    DatePicker birthDate = new DatePicker();
+    birthDate.setConverter(new LocalDateStringConverter("MMMM dd, yyyy"));
+    ```
+
+* You can configure the DatePicker control to work with a specific chronology instead of the default one. The following statement sets the chronology to Thai Buddhist chronology:
+    ```java
+    birthDate.setChronology(ThaiBuddhistChronology.INSTANCE);
+    ```
+
+* You can change the default Locale for the current instance of the JVM and the DatePicker will use the date format and chronology for the default Locale:
+    ```java
+    // Change the default Locale to Canada
+    Locale.setDefault(Locale.CANADA);
+    ```
+
+* Each day cell in the pop-up calendar is an instance of the DateCell class, which is inherited from the ```Cell<LocalDate>``` class. The dayCellFactory property of the DatePicker class lets you provide a custom day cell factory.
+
+* The DatePicker control fires an ActionEvent when its value property changes. The value property may change when a user enters a date, selects a date from the pop-up, or a date is set programmatically.
+
+* The following styles display the current day number in bold and all day numbers in blue:
+    ```java
+    /* Display current day numbers in bolder font */
+    .date-picker-popup > * > .today {
+    -fx-font-weight: bolder;
+    }
+    /* Display all day numbers in blue */
+    .date-picker-popup > * > .day-cell {
+    -fx-text-fill: blue;
+    }
+    ```
+
+***
