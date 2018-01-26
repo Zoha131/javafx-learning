@@ -106,4 +106,19 @@
     * __wrapText :__ By default, TextArea starts a new line when it encounters a newline character in its text. A newline character also creates a new paragraph except for the first paragraph. By default, the text is not wrapped to the next line if it exceeds the width of the control. The wrapText property determines whether the text is wrapped to another line when its run exceeds the width of the control. By default, its value is false.
 
 
-* The ```getParagraphs()``` method of the ```TextArea``` class returns an unmodifiable list of all paragraphs in its text. Each element in the list is a paragraph, which is an instance of ```CharSequence```. The returned paragraph does not contain the newline characters. 
+* The ```getParagraphs()``` method of the ```TextArea``` class returns an unmodifiable list of all paragraphs in its text. Each element in the list is a paragraph, which is an instance of ```CharSequence```. The returned paragraph does not contain the newline characters.
+
+***
+
+#### Understanding the HTMLEditor Control
+
+* The HTMLEditor control provides a rich text editing capability to JavaFX application. It uses HTML as its data model. That is, the formatted text in HTMLEditor is stored in HTML format.
+
+* The control supports HTML5. Note that the toolbars do not allow you to apply all kinds of HTML. However, if you load a document that uses those styles, it allows you to edit them. For example, you cannot create an HTML table directly in the control. However, if you load HTML content having HTML tables into the control, you will be able to edit the data in the tables.
+
+* The HTMLEditor class has a very simple API that consists of only three methods:
+    * ```getHtmlText()``` : method returns the HTML content as a string.
+
+    * ```setHtmlText(String htmlText)``` : method sets the content of the control to the specified HTML string.
+
+    * ```print(PrinterJob job)``` : method prints the content of the control.
