@@ -12,6 +12,42 @@
 
 * For an object of TableColumn the method ```setCellValueFactory()``` must have to be used. And additionally you can all call and specify ```setCellFactory()``` method to have custom cell type
 
+* TableView supports nesting of columns. A TableColumn stores the list of nested columns in an observable list whose reference can be obtained using the ```getColumns()``` method of the TableColumn class. You need to add the cell value factories for the leaf columns. Nested columns only provide visual effects.
+    ```java
+    // Create a TableView with data
+    TableView<Person> table = new TableView<>(PersonTableUtil.getPersonList());
+
+    // Create leaf columns - First and Last
+    TableColumn<Person, String> fNameCol = new TableColumn<>("First");
+    fNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+
+    TableColumn<Person, String> lNameCol = new TableColumn<>("Last");
+    lNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+
+    // Create Name column and nest First and Last columns in it
+    TableColumn<Person, String> nameCol = new TableColumn<>("Name");
+    nameCol.getColumns().addAll(fNameCol, lNameCol);
+
+    // Add columns to the TableView
+    table.getColumns().addAll(idCol, nameCol);
+    ```
+    Note that you add the topmost columns to the TableView, not the nested columns. There is no limit on the level of column nesting
+
+* The following methods in the TableView class provide information about visible leaf columns:
+    * ```TableColumn<S,?> getVisibleLeafColumn(int columnIndex)```
+    * ```ObservableList<TableColumn<S,?>> getVisibleLeafColumns()```
+    * ```int getVisibleLeafIndex(TableColumn<S,?> column)```
+
+* TableView displays a placeholder when it does not have any visible leaf content. You can replace the built-in placeholder using the ```placeholder``` property of the TableView. The value for the property is an instance of the Node class. The following statement sets a Label with a generic message as a placeholder:
+```java
+table.setPlaceholder(new Label("No visible columns and/or data exist."));
+```
+
+
+
+***
+
+
 ### Basic Steps to add TableView
 
 1. create a model for TableView. the model class must have **getters** to get tha values.
